@@ -1,0 +1,21 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Dependency directories
+node_modules/
+dist/
+.parcel-cache/
+
+# Optional npm cache directory
+.npm
+
+# dotenv environment variable files
+.env*
