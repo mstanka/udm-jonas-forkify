@@ -1,4 +1,6 @@
 import icons from 'url:../img/icons.svg';
+import 'core-js/stable'; // packages for polyfiling
+import 'regenerator-runtime/runtime';
 
 const recipeContainer = document.querySelector('.recipe');
 
@@ -29,7 +31,7 @@ const showRecipe = async () => {
   try {
     // 1) loading recipe
     renderSpinner(recipeContainer);
-    
+
     const res = await fetch(
       'https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bc886'
     );
