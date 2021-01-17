@@ -22,6 +22,10 @@ const controlRecipes = async () => {
   }
 };
 
-['hashchange', 'load'].map(ev => window.addEventListener(ev, controlRecipes));
-// window.addEventListener('hashchange', controlRecipes);
-// window.addEventListener('load', controlRecipes);
+const init = () => {
+  // publisher-subscriber pattern
+  // we pass function as argument to be executed as soon as the event happen
+  recipeView.addHandlerRender(controlRecipes);
+};
+
+init();
