@@ -116,7 +116,7 @@ class RecipeView {
         </div>
     `;
   }
-  
+
   _generateMarkupIngredient(ing) {
     return `
       <li class="recipe__ingredient">
