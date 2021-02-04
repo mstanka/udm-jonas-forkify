@@ -18,7 +18,7 @@ const controlRecipes = async () => {
     recipeView.render(model.state.recipe); // accept the data and store it in class RecipeView
     //const recipeView = new recipeView(model.state.recipe);
   } catch (err) {
-    console.error(err);
+    recipeView.renderError();
   }
 };
 
