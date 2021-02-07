@@ -1,14 +1,14 @@
 import * as model from './model.js';
 import recipeView from './views/recipeView.js';
 import searchView from './views/searchView.js';
-import resultsView from './views/resultsView.js'
+import resultsView from './views/resultsView.js';
 
 import 'core-js/stable'; // packages for polyfiling
 import 'regenerator-runtime/runtime';
 
 // from parcel
-if(module.hot) {
-  module.hot.accept()
+if (module.hot) {
+  module.hot.accept();
 }
 
 const controlRecipes = async () => {
@@ -40,7 +40,8 @@ const controlSearchResults = async () => {
     await model.loadSearchResults(query);
 
     // 3) render results
-    resultsView.render(model.state.search.results);
+    //resultsView.render(model.state.search.results);
+    resultsView.render(model.getSearchResultsPage());
   } catch (err) {
     console.log(err);
   }
