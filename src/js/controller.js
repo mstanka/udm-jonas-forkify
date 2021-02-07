@@ -45,7 +45,7 @@ const controlSearchResults = async () => {
     resultsView.render(model.getSearchResultsPage());
 
     // 4) render initial pagination buttons
-    paginationView.render(model.state.search)
+    paginationView.render(model.state.search);
   } catch (err) {
     console.log(err);
   }
@@ -59,10 +59,19 @@ const controlPagination = goToPage => {
   paginationView.render(model.state.search);
 };
 
+const controlServings = (newServings) => {
+  // update the recipe servings (in state)
+  model.updateServings(newServings);
+
+  // update the recipe view
+  recipeView.render(model.state.recipe);
+};
+
 const init = () => {
   // publisher-subscriber pattern
   // we pass function as argument to be executed as soon as the event happen
   recipeView.addHandlerRender(controlRecipes);
+  recipeView.addHandlerUpdateServings(controlServings);
   searchView.addHandlerSearch(controlSearchResults);
   paginationView.addHandlerClick(controlPagination);
 };
