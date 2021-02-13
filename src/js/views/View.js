@@ -1,17 +1,53 @@
 import icons from 'url:../../img/icons.svg';
 
 export default class View {
-  _data;  
+  _data;
 
   render(data) {
     // if no data or if not array or if empty array
-    if(!data || (Array.isArray(data) && data.length === 0)) return this.renderError();
+    if (!data || (Array.isArray(data) && data.length === 0))
+      return this.renderError();
 
     this._data = data;
     const markup = this._generateMarkup();
     // attach to parent element as a first child
     this._clear();
     this._parentElement.insertAdjacentHTML('afterbegin', markup);
+  }
+
+  update(data) {
+    if (!data || (Array.isArray(data) && data.length === 0))
+      return this.renderError();
+
+    this._data = data;
+    // generate new markup, not render it, but compare with the current html and udpate only changed parts
+    const newMarkup = this._generateMarkup();
+    // create virtual DOM
+    const newDOM = document.createRange().createContextualFragment(newMarkup);
+    // NodeList convert to array
+    const newElements = Array.from(newDOM.querySelectorAll('*'));
+    const curElements = Array.from(this._parentElement.querySelectorAll('*'));
+
+    newElements.forEach((newEl, i) => {
+      const curEl = curElements[i];
+     
+      // updates changed TEXT
+      // if elements different and also element's firstchild has nodeValue - it means if it is text
+      if (
+        !newEl.isEqualNode(curEl) &&
+        newEl.firstChild?.nodeValue.trim() !== ''
+      ) {
+        // change text content
+        curEl.textContent = newEl.textContent;
+      }
+
+      // updates changed ATTRIBUTES
+      if (!newEl.isEqualNode(curEl)) {
+        Array.from(newEl.attributes).forEach(attr =>
+          curEl.setAttribute(attr.name, attr.value)
+        );
+      }
+    });
   }
 
   _clear() {
