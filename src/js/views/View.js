@@ -3,13 +3,15 @@ import icons from 'url:../../img/icons.svg';
 export default class View {
   _data;
 
-  render(data) {
+  render(data, render = true) {
     // if no data or if not array or if empty array
     if (!data || (Array.isArray(data) && data.length === 0))
       return this.renderError();
 
     this._data = data;
     const markup = this._generateMarkup();
+
+    if(!render) return markup;
     // attach to parent element as a first child
     this._clear();
     this._parentElement.insertAdjacentHTML('afterbegin', markup);
