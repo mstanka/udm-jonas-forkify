@@ -22,12 +22,14 @@ const controlRecipes = async () => {
 
     //// 0) update results view to mark selected search result
     resultsView.update(model.getSearchResultsPage());
+
+    //// 1) update bookmarks view
     bookmarksView.update(model.state.bookmarks);
 
-    //// 1) loading recipe
+    //// 2) loading recipe
     await model.loadRecipe(id);
 
-    //// 2) rendering recipe
+    //// 3) rendering recipe
     recipeView.render(model.state.recipe); // accept the data and store it in class RecipeView
     //const recipeView = new recipeView(model.state.recipe);
   } catch (err) {
@@ -87,9 +89,14 @@ const controlAddBookmark = () => {
   bookmarksView.render(model.state.bookmarks);
 };
 
+const controlBookmarks = () => {
+  bookmarksView.render(model.state.bookmarks);
+};
+
 const init = () => {
   // publisher-subscriber pattern
   // we pass function as argument to be executed as soon as the event happen
+  bookmarksView.addHandlerRender(controlBookmarks);
   recipeView.addHandlerRender(controlRecipes);
   recipeView.addHandlerUpdateServings(controlServings);
   recipeView.addHandlerAddBookmark(controlAddBookmark);
