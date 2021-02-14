@@ -4,6 +4,7 @@ import searchView from './views/searchView.js';
 import bookmarksView from './views/bookmarksView.js';
 import resultsView from './views/resultsView.js';
 import paginationView from './views/paginationView.js';
+import addRecipeView from './views/addRecipeView.js';
 
 import 'core-js/stable'; // packages for polyfiling
 import 'regenerator-runtime/runtime';
@@ -93,6 +94,16 @@ const controlBookmarks = () => {
   bookmarksView.render(model.state.bookmarks);
 };
 
+const controlAddRecipe = async newRecipe => {
+  try {
+    // upload new recipe
+    await model.uploadRecipe(newRecipe);
+  } catch (err) {
+    console.error(err);
+    addRecipeView.renderError(err.message);
+  }
+};
+
 const init = () => {
   // publisher-subscriber pattern
   // we pass function as argument to be executed as soon as the event happen
@@ -102,6 +113,7 @@ const init = () => {
   recipeView.addHandlerAddBookmark(controlAddBookmark);
   searchView.addHandlerSearch(controlSearchResults);
   paginationView.addHandlerClick(controlPagination);
+  addRecipeView.addHandlerUpload(controlAddRecipe);
 };
 
 init();
