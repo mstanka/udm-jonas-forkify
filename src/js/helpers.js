@@ -10,27 +10,18 @@ const timeout = function (s) {
   });
 };
 
-export const getJSON = async url => {
+export const AJAX = async (url, uploadData = undefined) => {
   try {
-    const res = await Promise.race([fetch(url), timeout(TIMEOUT_SEC)]);
-    const data = await res.json();
+    const fetchPro = uploadData
+      ? fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(uploadData),
+        })
+      : fetch(url);
 
-    if (!res.ok) throw new Error(`${data.message} (${res.status})`);
-    return data;
-  } catch (err) {
-    throw err; // rethrow error from here to another function - loadRecipe
-  }
-};
-
-export const sendJSON = async (url, uploadData) => {
-  try {
-    const fetchPro = fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(uploadData),
-    });
     const res = await Promise.race([fetchPro, timeout(TIMEOUT_SEC)]);
     const data = await res.json();
 
@@ -40,3 +31,34 @@ export const sendJSON = async (url, uploadData) => {
     throw err; // rethrow error from here to another function - loadRecipe
   }
 };
+
+// export const getJSON = async url => {
+//   try {
+//     const res = await Promise.race([fetch(url), timeout(TIMEOUT_SEC)]);
+//     const data = await res.json();
+
+//     if (!res.ok) throw new Error(`${data.message} (${res.status})`);
+//     return data;
+//   } catch (err) {
+//     throw err; // rethrow error from here to another function - loadRecipe
+//   }
+// };
+
+// export const sendJSON = async (url, uploadData) => {
+//   try {
+//     const fetchPro = fetch(url, {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify(uploadData),
+//     });
+//     const res = await Promise.race([fetchPro, timeout(TIMEOUT_SEC)]);
+//     const data = await res.json();
+
+//     if (!res.ok) throw new Error(`${data.message} (${res.status})`);
+//     return data;
+//   } catch (err) {
+//     throw err; // rethrow error from here to another function - loadRecipe
+//   }
+// };
